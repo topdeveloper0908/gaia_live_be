@@ -297,7 +297,7 @@ app.post("/api/login", async (req, res) => {
   console.log(await bcrypt.hash("Pass1234!", 10));
   // $2b$10$WZ9pp7nsSEcgglZD8W8oueFvDfSDKKY1VJ.wVWRGRKubqDlowH2UG
   try {
-    const query = "SELECT * FROM practitioner_list WHERE email = ?";
+    const query = "SELECT * FROM practitioner_list WHERE email = ?;";
     connection.query(query, [newData.email], async (error, results, fields) => {
       if (error) throw error;
 
@@ -325,6 +325,7 @@ app.post("/api/login", async (req, res) => {
       );
 
       res.json({ token });
+      return;
     });
   } catch (error) {
     console.error("Login error:", error);
