@@ -16,7 +16,7 @@ const app = express();
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "Practitioner@2024",
   database: "practitioner",
 });
 
@@ -59,6 +59,7 @@ app.get("/api/data", (req, res) => {
       if (error) throw error;
       data = JSON.stringify(results);
       res.json(results);
+      return;
     }
   );
 
