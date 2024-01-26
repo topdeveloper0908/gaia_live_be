@@ -355,7 +355,7 @@ app.post("/api/media", upload.single("image"), function (req, res, next) {
   }
 });
 
-app.use("/src", express.static(__dirname + "/src"));
+app.use("/api/src", express.static(__dirname + "/src"));
 
 app.use(async (req, res, next) => {
   const token = req.header("Authorization");
