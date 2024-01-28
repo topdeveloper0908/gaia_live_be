@@ -127,7 +127,7 @@ app.post("/api/new", (req, res) => {
         res.json("duplicated");
       } else {
         connection.query(
-          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             newData.firstname,
             newData.lastname,
@@ -143,6 +143,7 @@ app.post("/api/new", (req, res) => {
             newData.country,
             newData.email,
             newData.phone,
+            newData.sex,
           ],
           (error, results, fields) => {
             if (error) throw error;
@@ -159,7 +160,7 @@ app.post("/api/update", (req, res) => {
   var newData = req.body;
   // Update operation
   const updateQuery =
-    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =? WHERE id =?";
+    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =? WHERE id =?";
   const updateValues = [
     newData.firstname,
     newData.lastname,
@@ -177,6 +178,7 @@ app.post("/api/update", (req, res) => {
     newData.email,
     newData.country,
     newData.status,
+    newData.sex,
     newData.id,
   ]; // Replace with actual values
 
