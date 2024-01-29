@@ -198,7 +198,7 @@ app.post("/api/updateDB", async (req, res) => {
 
   // Add Admin
   await connection.query(
-    "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, `rank`, review, status, role, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, `rank`, review, status, role, password, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       "Nima",
       "Farshid",
@@ -219,6 +219,7 @@ app.post("/api/updateDB", async (req, res) => {
       "active",
       0,
       "$2b$10$WZ9pp7nsSEcgglZD8W8oueFvDfSDKKY1VJ.wVWRGRKubqDlowH2UG",
+      "Male"
     ],
     (error, results, fields) => {
       if (error) throw error;
@@ -230,7 +231,7 @@ app.post("/api/updateDB", async (req, res) => {
   newData.forEach(async (element, index) => {
     if (element["Email"] != "nima02@yahoo.com" && index != 0) {
       await connection.query(
-        "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           element["First Name"],
           element["Last Name"],
@@ -246,6 +247,7 @@ app.post("/api/updateDB", async (req, res) => {
           element["Country"],
           element["Email"],
           element["Phone"],
+          element["Sex"],
         ],
         (error, results, fields) => {
           if (error) throw error;
