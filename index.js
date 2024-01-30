@@ -156,6 +156,49 @@ app.post("/api/new", (req, res) => {
   );
 });
 
+app.post("/api/admin_new", (req, res) => {
+  var newData = req.body;
+  connection.query(
+    "Select * FROM practitioner_list WHERE email = ?",
+    [newData.email],
+    (error, results, fields) => {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.json("duplicated");
+      } else {
+        connection.query(
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, status, review, rank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            newData.firstname,
+            newData.lastname,
+            newData.specialty,
+            newData.imageURL,
+            newData.uploaded,
+            newData.tags,
+            newData.meetingLink,
+            newData.address,
+            newData.city,
+            newData.state,
+            newData.zipcode,
+            newData.country,
+            newData.email,
+            newData.phone,
+            newData.sex,
+            newData.status,
+            newData.review,
+            newData.rank
+          ],
+          (error, results, fields) => {
+            if (error) throw error;
+            console.log("Inserted a new row with ID:", results.insertId);
+            res.json("success");
+          }
+        );
+      }
+    }
+  );
+});
+
 app.post("/api/update", (req, res) => {
   var newData = req.body;
   // Update operation
