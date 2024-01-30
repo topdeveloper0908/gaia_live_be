@@ -381,51 +381,26 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/hide_info", authenticateToken, (req, res) => {
+  let { id } = req;
   try {
     // const query = "UPDATE hide_info SET hide=1 WHERE id = 1;";
     // first get the current status
-    const query = "SELECT * FROM hide_info WHERE id = 1;";
-    connection.query(query, async (error, results, fields) => {
+    const query = "SELECT * FROM practitioner_list WHERE id = ?;";
+    connection.query(query, [id], async (error, results, fields) => {
       if (error) throw error;
 
-      hideInfo = results;
-      var hide = hideInfo[0].hide;
-      console.log(results);
+      user = results;
 
-      if (hide == 1) {
-        const query = "UPDATE hide_info SET hide=0 WHERE id = 1;";
-        connection.query(query, async (error, results, fields) => {
-          if (error) throw error;
-          res.json("success");
-          return;
-        });
-      } else {
-        const query = "UPDATE hide_info SET hide=1 WHERE id = 1;";
-        connection.query(query, async (error, results, fields) => {
-          if (error) throw error;
-          res.json("success");
-          return;
-        });
-      }
-    });
-  } catch (error) {
-    console.error("failed to hide:", error);
-    res.status(500).json({ message: "Internal server error." });
-  }
-});
+      const hide = user[0].hide == 1 ? 0 : 1;
 
-app.get("/api/hide_info", (req, res) => {
-  try {
-    // first get the current status
-    const query = "SELECT * FROM hide_info WHERE id = 1;";
-    connection.query(query, async (error, results, fields) => {
-      if (error) throw error;
+      const updateQuery = "UPDATE practitioner_list SET hide = ? WHERE id = ?";
+      const updateValues = [hide, id]; // Replace with actual values
 
-      hideInfo = results;
-      console.log(results);
-
-      res.json(hideInfo);
-      return;
+      connection.query(updateQuery, updateValues, (error, results, fields) => {
+        if (error) throw error;
+        console.log("Updated rows:", results.affectedRows);
+        res.json("success");
+      });
     });
   } catch (error) {
     console.error("failed to hide:", error);
