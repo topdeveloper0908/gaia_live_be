@@ -389,6 +389,7 @@ app.post("/api/hide_info", authenticateToken, (req, res) => {
       if (error) throw error;
 
       hideInfo = results;
+      var hide = hideInfo[0].hide;
       console.log(results);
 
       if (hide == 1) {
