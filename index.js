@@ -167,7 +167,7 @@ app.post("/api/admin_new", (req, res) => {
         res.json("duplicated");
       } else {
         connection.query(
-          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, status, review, rank) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, status, review, `rank`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             newData.firstname,
             newData.lastname,
@@ -186,7 +186,7 @@ app.post("/api/admin_new", (req, res) => {
             newData.sex,
             newData.status,
             newData.review,
-            newData.rank
+            newData.rank,
           ],
           (error, results, fields) => {
             if (error) throw error;
@@ -262,7 +262,7 @@ app.post("/api/updateDB", async (req, res) => {
       "active",
       0,
       "$2b$10$WZ9pp7nsSEcgglZD8W8oueFvDfSDKKY1VJ.wVWRGRKubqDlowH2UG",
-      "Male"
+      "Male",
     ],
     (error, results, fields) => {
       if (error) throw error;
