@@ -380,6 +380,58 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.post("/api/hide_info", authenticateToken, (req, res) => {
+  try {
+    // const query = "UPDATE hide_info SET hide=1 WHERE id = 1;";
+    // first get the current status
+    const query = "SELECT * FROM hide_info WHERE id = 1;";
+    connection.query(query, async (error, results, fields) => {
+      if (error) throw error;
+
+      hideInfo = results;
+      console.log(results);
+
+      if (hide == 1) {
+        const query = "UPDATE hide_info SET hide=0 WHERE id = 1;";
+        connection.query(query, async (error, results, fields) => {
+          if (error) throw error;
+          res.json("success");
+          return;
+        });
+      } else {
+        const query = "UPDATE hide_info SET hide=1 WHERE id = 1;";
+        connection.query(query, async (error, results, fields) => {
+          if (error) throw error;
+          res.json("success");
+          return;
+        });
+      }
+    });
+  } catch (error) {
+    console.error("failed to hide:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+app.get("/api/hide_info", (req, res) => {
+  try {
+    // first get the current status
+    const query = "SELECT * FROM hide_info WHERE id = 1;";
+    connection.query(query, async (error, results, fields) => {
+      if (error) throw error;
+
+      hideInfo = results;
+      console.log(results);
+
+      res.json(hideInfo);
+      return;
+    });
+  } catch (error) {
+    console.error("failed to hide:", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "src/");
