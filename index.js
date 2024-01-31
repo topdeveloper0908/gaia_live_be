@@ -127,7 +127,7 @@ app.post("/api/new", (req, res) => {
         res.json("duplicated");
       } else {
         connection.query(
-          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, profileLink) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             newData.firstname,
             newData.lastname,
@@ -144,6 +144,7 @@ app.post("/api/new", (req, res) => {
             newData.email,
             newData.phone,
             newData.sex,
+            newData.profileLink,
           ],
           (error, results, fields) => {
             if (error) throw error;
@@ -203,7 +204,7 @@ app.post("/api/update", (req, res) => {
   var newData = req.body;
   // Update operation
   const updateQuery =
-    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =? WHERE id =?";
+    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =?, profileLink=? WHERE id =?";
   const updateValues = [
     newData.firstname,
     newData.lastname,
@@ -223,6 +224,7 @@ app.post("/api/update", (req, res) => {
     newData.status,
     newData.sex,
     newData.hide,
+    newData.profileLink,
     newData.id,
   ]; // Replace with actual values
 
@@ -411,7 +413,7 @@ app.post("/api/hide_info", authenticateToken, (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "src/");
+    cb(null, "");
   },
   filename: function (req, file, cb) {
     cb(
