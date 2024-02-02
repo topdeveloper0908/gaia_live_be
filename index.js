@@ -11,10 +11,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("./middleware/authenticateToken");
 var nodemailer = require("nodemailer");
-const cors = require("cors");
 
 const app = express();
-app.use(cors());
 
 const connection = mysql.createConnection({
   host: "localhost",
