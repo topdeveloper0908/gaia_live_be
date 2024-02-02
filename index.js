@@ -431,7 +431,7 @@ app.post("/api/login_practitioner", async (req, res) => {
 });
 
 app.get("/api/user", authenticateToken, (req, res) => {
-  return res.user;
+  return req.user;
 });
 
 app.post("/api/hide_info", authenticateToken, (req, res) => {
