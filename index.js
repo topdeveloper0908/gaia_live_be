@@ -423,7 +423,7 @@ app.post("/api/login_practitioner", async (req, res) => {
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
-        res.status(500).json({ message: "Internal server error." });
+        res.status(500).json({ message: "Internal server error" });
       } else {
         console.log("Email sent: " + info.response);
         res.json({ message: "success" });
