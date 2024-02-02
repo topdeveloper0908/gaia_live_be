@@ -433,7 +433,7 @@ app.post("/api/login_practitioner", async (req, res) => {
 app.get("/api/user", authenticateToken, (req, res) => {
   const { userId } = req.user;
   const query = "SELECT * FROM practitioner_list WHERE id = ?;";
-  connection.query(query, [id], async (error, results, fields) => {
+  connection.query(query, [userId], async (error, results, fields) => {
     if (error) throw error;
 
     user = results;
