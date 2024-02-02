@@ -431,7 +431,16 @@ app.post("/api/login_practitioner", async (req, res) => {
 });
 
 app.get("/api/user", authenticateToken, (req, res) => {
-  return req.user;
+  const { userId } = req.user;
+  const query = "SELECT * FROM practitioner_list WHERE id = ?;";
+  connection.query(query, [id], async (error, results, fields) => {
+    if (error) throw error;
+
+    user = results;
+
+    res.json(user);
+  });
+  return;
 });
 
 app.post("/api/hide_info", authenticateToken, (req, res) => {
