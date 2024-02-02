@@ -10,13 +10,16 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("./middleware/authenticateToken");
+var nodemailer = require("nodemailer");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Practitioner@2024",
+  password: "root",
   database: "practitioner",
 });
 
@@ -77,7 +80,7 @@ app.get("/api/metaData", (req, res) => {
       data = JSON.stringify(results);
       results.forEach((element) => {
         if (element.specialty != "") {
-          specArray = element.specialty.split(",");
+          specArray = element?.specialty?.split(",");
           specArray.forEach((subElement) => {
             var value;
             if (subElement.charAt(0) == " ") {
@@ -384,6 +387,55 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.post("/api/login_practitioner", async (req, res) => {
+  const { email } = req.body;
+  const query = "SELECT * FROM practitioner_list WHERE email = ?;";
+  connection.query(query, [email], async (error, results, fields) => {
+    if (error) throw error;
+
+    user = results;
+
+    if (user.length === 0) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    const token = jwt.sign(
+      { username: user[0].firstname + user[0].lastname, userId: user[0].id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "angebelard@gmail.com",
+        pass: "ivmn syxa dvre tker",
+      },
+    });
+
+    var mailOptions = {
+      from: "Gaia",
+      to: email,
+      subject: "Gaia Login",
+      text: `Here is your login link: https://gaiapractitioner.com/user.html?token=${token}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server error." });
+      } else {
+        console.log("Email sent: " + info.response);
+        res.json({ message: "success" });
+      }
+    });
+  });
+});
+
+app.get("/api/user", authenticateToken, (req, res) => {
+  res.json({ message: "success" });
+});
+
 app.post("/api/hide_info", authenticateToken, (req, res) => {
   let { id } = req;
   try {
@@ -423,7 +475,7 @@ const storage = multer.diskStorage({
     );
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, dest: "src/" });
 // Define the route to handle the file upload
 app.post("/api/media", upload.single("image"), function (req, res, next) {
   // Send a response back to the frontend
