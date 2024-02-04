@@ -128,7 +128,7 @@ app.post("/api/new", (req, res) => {
         res.json("duplicated");
       } else {
         connection.query(
-          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, profileLink) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, profileLink, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             newData.firstname,
             newData.lastname,
@@ -146,6 +146,7 @@ app.post("/api/new", (req, res) => {
             newData.phone,
             newData.sex,
             newData.profileLink,
+            newData.availability,
           ],
           (error, results, fields) => {
             if (error) throw error;
@@ -169,7 +170,7 @@ app.post("/api/admin_new", (req, res) => {
         res.json("duplicated");
       } else {
         connection.query(
-          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, status, review, `rank`, profileLink) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, status, review, `rank`, profileLink, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             newData.firstname,
             newData.lastname,
@@ -190,6 +191,7 @@ app.post("/api/admin_new", (req, res) => {
             newData.review,
             newData.rank,
             newData.profileLink,
+            newData.availability,
           ],
           (error, results, fields) => {
             if (error) throw error;
@@ -206,7 +208,7 @@ app.post("/api/update", (req, res) => {
   var newData = req.body;
   // Update operation
   const updateQuery =
-    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =?, profileLink=? WHERE id =?";
+    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =?, profileLink=?, availability = ? WHERE id =?";
   const updateValues = [
     newData.firstname,
     newData.lastname,
@@ -227,6 +229,7 @@ app.post("/api/update", (req, res) => {
     newData.sex,
     newData.hide,
     newData.profileLink,
+    newData.availability,
     newData.id,
   ]; // Replace with actual values
 
@@ -279,7 +282,7 @@ app.post("/api/updateDB", async (req, res) => {
   newData.forEach(async (element, index) => {
     if (element["Email"] != "nima02@yahoo.com" && index != 0) {
       await connection.query(
-        "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           element["First Name"],
           element["Last Name"],
@@ -296,6 +299,7 @@ app.post("/api/updateDB", async (req, res) => {
           element["Email"],
           element["Phone"],
           element["Sex"],
+          element["Availability"],
         ],
         (error, results, fields) => {
           if (error) throw error;
