@@ -279,7 +279,7 @@ app.post("/api/updateDB", async (req, res) => {
   }
 
   // Add users
-  newData.forEach(async (element, index) => {
+  newData.data.forEach(async (element, index) => {
     if (element["Email"] != "nima02@yahoo.com" && index != 0) {
       await connection.query(
         "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
