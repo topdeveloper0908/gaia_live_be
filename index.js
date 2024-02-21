@@ -128,7 +128,7 @@ app.post("/api/new", (req, res) => {
         res.json("duplicated");
       } else {
         connection.query(
-          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, profileLink, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, profileLink, availability, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             newData.firstname,
             newData.lastname,
@@ -147,6 +147,7 @@ app.post("/api/new", (req, res) => {
             newData.sex,
             newData.profileLink,
             newData.availability,
+            newData.type,
           ],
           (error, results, fields) => {
             if (error) throw error;
@@ -170,7 +171,7 @@ app.post("/api/admin_new", (req, res) => {
         res.json("duplicated");
       } else {
         connection.query(
-          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, status, review, `rank`, profileLink, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, sex, status, review, `rank`, profileLink, availability, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             newData.firstname,
             newData.lastname,
@@ -192,6 +193,7 @@ app.post("/api/admin_new", (req, res) => {
             newData.rank,
             newData.profileLink,
             newData.availability,
+            newData.type,
           ],
           (error, results, fields) => {
             if (error) throw error;
@@ -208,7 +210,7 @@ app.post("/api/update", (req, res) => {
   var newData = req.body;
   // Update operation
   const updateQuery =
-    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =?, profileLink=?, availability = ? WHERE id =?";
+    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =?, profileLink=?, availability = ?, type=? WHERE id =?";
   const updateValues = [
     newData.firstname,
     newData.lastname,
@@ -230,6 +232,7 @@ app.post("/api/update", (req, res) => {
     newData.hide,
     newData.profileLink,
     newData.availability,
+    newData.type,
     newData.id,
   ]; // Replace with actual values
 
@@ -242,6 +245,7 @@ app.post("/api/update", (req, res) => {
 
 app.post("/api/updateDB", async (req, res) => {
   var newData = req.body;
+  console.log(newData);
   if (newData.replace) {
     await connection.query(
       "DELETE FROM practitioner_list",
