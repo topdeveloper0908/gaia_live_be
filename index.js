@@ -415,7 +415,7 @@ app.post("/api/login_practitioner", async (req, res) => {
       service: "gmail",
       auth: {
         user: "topdeveloper0908@gmail.com",
-        pass: "avto uoju bray ocbs",
+        pass: "ycog yuqd qvla abha",
       },
     });
 
