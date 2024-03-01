@@ -414,8 +414,8 @@ app.post("/api/login_practitioner", async (req, res) => {
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "topdeveloper0908@gmail.com",
-        pass: "ycog yuqd qvla abha",
+        user: "gaiahealersshopify@gmail.com",
+        pass: "byep avju cnsz aqut",
       },
     });
 
