@@ -210,7 +210,7 @@ app.post("/api/update", (req, res) => {
   var newData = req.body;
   // Update operation
   const updateQuery =
-    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =?, profileLink=?, availability = ?, type=? WHERE id =?";
+    "UPDATE practitioner_list SET firstname =?, lastname =?, specialty =?, imageURL =?, tags =?, meetingLink =?, address =?, city =?, zipcode =?, state =?, phone =?, `rank` =?, review =?, email =?, country = ?, status =?, sex =?, hide =?, profileLink=?, availability = ?, type=?, upload=?, WHERE id =?";
   const updateValues = [
     newData.firstname,
     newData.lastname,
@@ -233,6 +233,7 @@ app.post("/api/update", (req, res) => {
     newData.profileLink,
     newData.availability,
     newData.type,
+    newData.upload,
     newData.id,
   ]; // Replace with actual values
 
