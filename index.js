@@ -41,9 +41,39 @@ app.get("/api/all", authenticateToken, (req, res) => {
   var data = [];
   connection.query(
     "SELECT * FROM practitioner_list",
-    (error, results, fields) => {
+    async (error, results, fields) => {
       if (error) throw error;
       data = JSON.stringify(results);
+      if (results.length === 0) {
+        await connection.query(
+          "INSERT INTO practitioner_list (firstname, lastname, specialty, imageURL, upload, tags, meetinglink, address, city, state, zipcode, country, email, phone, `rank`, review, status, role, password, sex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            "Nima",
+            "Farshid",
+            "Bio-Well practitioner, Reiki Master, Sound Healer, Meditation Coach",
+            "https://biohackingcongress.com/storage/users/June2023/9Q67Ebbs5rPLWWmWGZET.png",
+            0,
+            "Reiki, biowell, soundhealer, meditation",
+            "https://calendly.com/nimafarshid/biowell",
+            "11532 Via Lucerna Cir",
+            "Windermere",
+            "FL",
+            "34786",
+            "US",
+            "nima02@yahoo.com",
+            "407-230-8179",
+            3,
+            5,
+            "active",
+            0,
+            "$2b$10$WZ9pp7nsSEcgglZD8W8oueFvDfSDKKY1VJ.wVWRGRKubqDlowH2UG",
+            "Male",
+          ],
+          (error, results, fields) => {
+            if (error) throw error;
+          }
+        );
+      }
       res.json(results);
     }
   );
